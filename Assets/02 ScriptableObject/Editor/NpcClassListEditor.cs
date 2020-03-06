@@ -17,6 +17,8 @@ namespace BeginnerToMaster.Exmaple {
         private GUIContent _iconToolbarPlus;
         private GUIContent _iconToolbarMinus;
 
+        private int _removeIndex = -1;
+
         private void OnEnable() {
             // 使用serializedObject.FindProperty方法获取NpcClassList中
             // 定义的 public List<Npc> _npcList; 的变量_npcList
@@ -40,6 +42,11 @@ namespace BeginnerToMaster.Exmaple {
             serializedObject.Update();
 
             DrawNpcList();
+
+            if (_removeIndex > -1) {
+                RemoveItem(_removeIndex);
+                _removeIndex = -1;
+            }
 
             if (GUI.changed)
                 EditorUtility.SetDirty(target);
@@ -85,12 +92,22 @@ namespace BeginnerToMaster.Exmaple {
 
             for (int i = 0; i < _npcList.arraySize; ++i) {
                 SerializedProperty npc = _npcList.GetArrayElementAtIndex(i);
+
+                DrawNpc(npc, i);
             }
         }
 
         private void DrawNpc(SerializedProperty npc, int index) {
             EditorGUILayout.BeginVertical("Box");
 
+            Rect rc = GUILayoutUtility.GetRect(_iconToolbarMinus, GUI.skin.button);
+            const float removeButtonWidth = 50f;
+            rc.x = rc.width - removeButtonWidth / 2 - 5;
+            rc.width = removeButtonWidth;
+            if (GUI.Button(rc, _iconToolbarMinus)) {
+                _removeIndex = index;
+            }
+                
 
 
             #region NpcId Property            
@@ -121,7 +138,7 @@ namespace BeginnerToMaster.Exmaple {
 
             #region Button
             GUILayout.Space(5);
-            Rect rc = GUILayoutUtility.GetRect(_debugButton, GUI.skin.button);
+            rc = GUILayoutUtility.GetRect(_debugButton, GUI.skin.button);
             const float with = 150f;
             rc.x = rc.x + (rc.width - with) / 2;
             rc.width = with;
@@ -134,6 +151,9 @@ namespace BeginnerToMaster.Exmaple {
             #endregion
 
             EditorGUILayout.EndVertical();
+
+            GUILayout.Space(10);
+            serializedObject.ApplyModifiedProperties();
         }
     }
 }

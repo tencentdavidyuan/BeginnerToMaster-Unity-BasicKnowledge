@@ -9,7 +9,9 @@ namespace BeginnerToMaster.Exmaple {
 
         // Start is called before the first frame update
         void Start() {
-
+            foreach (var npc in _npcList) {
+                Debug.Log("npc : " + npc._npcId);
+            }
         }
 
         // Update is called once per frame
