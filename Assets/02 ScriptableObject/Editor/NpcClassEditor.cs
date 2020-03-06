@@ -15,10 +15,11 @@ namespace BeginnerToMaster.Exmaple {
         private GUIContent _debugButton;
 
         private void OnEnable() {
-            // serializedObject是NpcClass的一个实例
+            // serializedObject指向NpcClass
 
-            // 使用 serializedObject.FindProperty 方法
-            // 获取 NpcClass 中定义的 public Npc _npc; 变量_npc
+            // 使用serializedObject.FindProperty方法，获取NpcClass中定义的
+            // public Npc _npc; 变量_npc
+            // serializedObject 指向 NpcClass 
             _spNpc = serializedObject.FindProperty("_npc");
 
             _debugButton = new GUIContent("Debug");
@@ -26,13 +27,14 @@ namespace BeginnerToMaster.Exmaple {
         }
 
         public override void OnInspectorGUI() {
-            //serializedObject.Update();
+            // 更新
+            serializedObject.Update();
 
-            DrawNpc();  
-            
-            //if (GUI.changed) {
-            //    EditorUtility.SetDirty(target);
-            //}
+            DrawNpc();
+
+            if (GUI.changed) {
+                EditorUtility.SetDirty(target);
+            }
             serializedObject.ApplyModifiedProperties();
         }
 
