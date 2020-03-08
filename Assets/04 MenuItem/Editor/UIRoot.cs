@@ -31,7 +31,7 @@ namespace BeginnerToMaster.Example {
         /// 3. 菜单的顺序
         //     优先级是个被赋值到菜单项一个数字（传递给MenuItemde的第3个参数），它控制了菜单的显示顺序。 
         /// </summary>
-        [MenuItem("Tools/UI/UIRoot %#I", false, 2)]
+        [MenuItem("Tools/UI/UIRootSetup %#I", false, 2)]
         static void UIRootMenu() {
             Debug.Log("Create UIRoot");
             GameObject uiRoot = new GameObject("UIRoot");
@@ -66,9 +66,16 @@ namespace BeginnerToMaster.Example {
             }
         }
 
-        [MenuItem("Tools/UI/UICanvas %#J", false, 1)]
-        static void UICanvaMenu() {
-            Debug.Log("Create Canva Menu");
+        [MenuItem("Tools/UI/UIRootEditorWindow %#J", false, 1)]
+        static void UIRootEditorWindowMenu() {
+            Debug.Log("UIRoot Editor Window");
+
+            var window = GetWindow<UIRoot>();
+            // 设置窗口名称
+            window.name = "UIRoot EditorWindow";
+            // 设置标题栏
+            window.titleContent = new GUIContent("UIRoot EditorWindow");
+            window.Show();
         }
 
         [MenuItem("Tools/UI/UIRootError", false, 3)]
@@ -87,6 +94,8 @@ namespace BeginnerToMaster.Example {
             // 错误：new EventSystem有一定的保护
             //EventSystem eventSys = new EventSystem();
         }
+
+
 
 
     }
