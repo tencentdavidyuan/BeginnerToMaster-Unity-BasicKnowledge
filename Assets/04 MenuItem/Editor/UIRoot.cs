@@ -47,6 +47,7 @@ namespace BeginnerToMaster.Example {
             // LayerMask.NameToLayer()
             // LayerMask.LayerToName() 
             //canvas.layer = LayerMask.NameToLayer("UI");
+            canvas.GetComponent<CanvasScaler>().uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
 
 
             // EventSytsem
@@ -95,6 +96,35 @@ namespace BeginnerToMaster.Example {
             //EventSystem eventSys = new EventSystem();
         }
 
+
+        private void OnGUI() {
+            //string resolutionRatioWidth = "";
+            //string resolutionRatioHeigh
+
+            #region Frist Row
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("width : ", GUILayout.Width(45));
+            GUILayout.TextField("720");
+            GUILayout.Label("x", GUILayout.Width(15));
+            GUILayout.Label("height : ", GUILayout.Width(55));
+            GUILayout.TextField("1280");
+            GUILayout.EndHorizontal();
+            #endregion
+
+            GUILayout.Space(5);
+
+            #region Second Row
+            if (GUILayout.Button("Modify Resolution Ratio")) {
+                Debug.Log("Modify Resolution Ratio");
+
+                GameObject uiRoot = GameObject.Find("UIRoot");
+                if (uiRoot == null)
+                    return;
+                uiRoot.GetComponentInChildren<CanvasScaler>().referenceResolution = new Vector2(720, 1280);
+            }
+            #endregion
+
+        }
 
 
 
