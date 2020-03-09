@@ -97,17 +97,19 @@ namespace BeginnerToMaster.Example {
         }
 
 
+        private string resolutionRatioWidth = "720";
+        private string resolutionRatioHeigh = "1280";
+
         private void OnGUI() {
-            //string resolutionRatioWidth = "";
-            //string resolutionRatioHeigh
+
 
             #region Frist Row
             GUILayout.BeginHorizontal();
             GUILayout.Label("width : ", GUILayout.Width(45));
-            GUILayout.TextField("720");
+            resolutionRatioWidth = GUILayout.TextField(resolutionRatioWidth);
             GUILayout.Label("x", GUILayout.Width(15));
             GUILayout.Label("height : ", GUILayout.Width(55));
-            GUILayout.TextField("1280");
+            resolutionRatioHeigh = GUILayout.TextField(resolutionRatioHeigh);
             GUILayout.EndHorizontal();
             #endregion
 
@@ -120,7 +122,8 @@ namespace BeginnerToMaster.Example {
                 GameObject uiRoot = GameObject.Find("UIRoot");
                 if (uiRoot == null)
                     return;
-                uiRoot.GetComponentInChildren<CanvasScaler>().referenceResolution = new Vector2(720, 1280);
+                uiRoot.GetComponentInChildren<CanvasScaler>().referenceResolution 
+                    = new Vector2(float.Parse(resolutionRatioWidth), float.Parse(resolutionRatioHeigh));
 
                 // 关闭窗口
                 Close();
