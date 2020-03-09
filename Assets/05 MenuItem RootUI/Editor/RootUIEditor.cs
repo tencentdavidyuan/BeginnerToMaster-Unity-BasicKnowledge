@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System.IO;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -74,8 +75,13 @@ namespace BeginnerToMaster.Exmaple {
             rootUiSerializedObj.ApplyModifiedPropertiesWithoutUndo();
 
             // 制作成Perfab
-            //AssetDatabase.Prefa
-
+            string savePath = Path.Combine(Application.dataPath, "05 MenuItem RootUI/Resources");
+            if (!Directory.Exists(savePath)) {
+                Directory.CreateDirectory(savePath);
+            }
+            string savePrefab = savePath + "/RootUI.Prefab";
+            Debug.Log(savePrefab);
+            PrefabUtility.SaveAsPrefabAssetAndConnect(goRootUI, savePrefab, InteractionMode.AutomatedAction);
         }
 
         static GameObject CreateUICanvas(RectTransform parentTransform, 
