@@ -121,6 +121,9 @@ namespace BeginnerToMaster.Example {
                 if (uiRoot == null)
                     return;
                 uiRoot.GetComponentInChildren<CanvasScaler>().referenceResolution = new Vector2(720, 1280);
+
+                // 关闭窗口
+                Close();
             }
             #endregion
 
