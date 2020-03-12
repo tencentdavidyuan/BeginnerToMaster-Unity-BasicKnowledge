@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEditor.AnimatedValues;
 using UnityEngine;
 
 
@@ -14,6 +15,8 @@ namespace BeginnerToMaster.Exmaple {
 
         private GUIContent _debugButton;
 
+        private AnimBool _fadeGroup;
+
         private void OnEnable() {
             // serializedObject指向NpcClass
 
@@ -24,17 +27,33 @@ namespace BeginnerToMaster.Exmaple {
 
             _debugButton = new GUIContent("Debug");
             _debugButton.tooltip = "Debug values about npc";
+
+            _fadeGroup = new AnimBool(true);
+            _fadeGroup.valueChanged.AddListener(Repaint);
         }
 
+        private void OnDisable() {
+            _fadeGroup.valueChanged.RemoveListener(Repaint);
+        }
+
+        /// <summary>
+        /// 有两个重要的内置对象，target和serializedObject。
+        /// target代表的是NpcClass本身。
+        /// serializedObject代表的是当前Inspector的可绘制对象。
+        /// </summary>
         public override void OnInspectorGUI() {
-            // 更新
+            // 更新显示
             serializedObject.Update();
 
+            /* 自定义绘制
+             */
             DrawNpc();
 
             if (GUI.changed) {
                 EditorUtility.SetDirty(target);
             }
+
+            // 应用属性修改
             serializedObject.ApplyModifiedProperties();
         }
 
@@ -80,6 +99,25 @@ namespace BeginnerToMaster.Exmaple {
                 Debug.Log("life :" + life.floatValue);
             }
             #endregion
+
+
+            GUILayout.Space(10);
+            // target控制动画开始播放
+            _fadeGroup.target = EditorGUILayout.Foldout(_fadeGroup.target, "BeginFadeGroup", true);
+
+            // 系统使用tween渐变faded数值
+            if (EditorGUILayout.BeginFadeGroup(_fadeGroup.faded)) {
+
+                SerializedProperty npcId2 = _spNpc.FindPropertyRelative("_npcId");
+                EditorGUILayout.PropertyField(npcId2, new GUIContent("NpcID"));
+
+                EditorGUILayout.BoundsField("BoundsField", new Bounds());
+                EditorGUILayout.BoundsIntField("BoundsIntField", new BoundsInt());
+            }
+            // begin - end 之间元素会进行动画
+            EditorGUILayout.EndFadeGroup();
+            // 又一种风格的空格
+            GUILayout.Space(10);
 
             EditorGUILayout.EndVertical();
         }
