@@ -35,9 +35,8 @@ public class HummerSetting : ScriptableObject {
     }
     #endregion
 
-
-    [MenuItem("Tools/Debug")]
-    public static void Debug() {
+    [InitializeOnLoadMethod]
+    public static void Setup() {
         HummerSetting.Instance.GetPath();
     }
 
